@@ -10,36 +10,6 @@ class AboutService {
         return $this->repo->getTree();
     }
 
-    /*public function upsert(array $payload, ?UploadedFile $aboutImage = null): About {
-        return DB::transaction(function () use ($payload) {
-            $parent = $this->repo->upsert(
-                [
-                    'title' => $payload['title'],
-                    'parent_id' => $payload['parent_id'] ?? null,
-                    'status' => $payload['status'],
-                ],
-                $payload['id'] ?? null
-            );
-
-            $sentChildIds = [];
-            if (!empty($payload['children'])) {
-                foreach ($payload['children'] as $child) {
-                    $childModel = $this->repo->upsert(
-                        [
-                            'title' => $child['title'],
-                            'parent_id' => $parent->id,
-                            'status' => $child['status'] ?? 'active',
-                        ],
-                        $child['id'] ?? null
-                    );
-                    $sentChildIds[] = $childModel->id;
-                }
-                $parent->children()->whereNotIn('id', $sentChildIds)->delete();
-            }
-            return $parent->load(['media','activeChildrenRecursive']);
-        });
-    }*/
-
     public function upsert(array $payload, ?UploadedFile $aboutImage = null): About {
         return DB::transaction(function () use ($payload, $aboutImage) {
             $parent = $this->repo->upsert([
