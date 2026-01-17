@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@variant dark (:where(.dark) &);
+
+/* Global styles */
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    background-color: rgb(241 245 249);
+    /* slate-100 */
+    color: rgb(15 23 42);
+    /* slate-900 */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.2s ease-out forwards;
+}
