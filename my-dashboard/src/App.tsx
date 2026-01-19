@@ -4,8 +4,16 @@ import Navbar from "./components/layout/Navbar";
 import Sidebar from "./components/layout/Sidebar";
 import Login from "./pages/auth/Login";
 
+// Import Pages
+import Dashboard from "./pages/dashboard/Dashboard";
+import HeroSection from "./pages/sections/HeroSection";
+import AboutSection from "./pages/sections/AboutSection";
+import JourneySection from "./pages/sections/JourneySection";
+import GalleryManagement from "./pages/gallery/GalleryManagement";
+import MessagesManagement from "./pages/contact/MessagesManagement";
+
 // Dashboard Layout Component
-function DashboardLayout() {
+function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [darkMode, setDarkMode] = useState(false);
     const [rtl, setRtl] = useState(false);
 
@@ -25,7 +33,7 @@ function DashboardLayout() {
     return (
         <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
             <Sidebar rtl={rtl} darkMode={darkMode} />
-            <div className="flex-1 flex flex-col">
+            <div className="flex flex-col flex-1">
                 <Navbar
                     darkMode={darkMode}
                     setDarkMode={setDarkMode}
@@ -33,12 +41,7 @@ function DashboardLayout() {
                     setRtl={setRtl}
                 />
                 <main className="flex-1 p-6">
-                    <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-                        Welcome to My Dashboard
-                    </h2>
-                    <p className="mt-2 text-slate-600 dark:text-slate-300">
-                        This is your modern business dashboard.
-                    </p>
+                    {children}
                 </main>
             </div>
         </div>
@@ -52,8 +55,19 @@ export default function App() {
             {/* Login Route */}
             <Route path="/login" element={<Login />} />
 
-            {/* Dashboard Route */}
-            <Route path="/dashboard" element={<DashboardLayout />} />
+            {/* Dashboard Routes - wrapped in DashboardLayout */}
+            <Route path="/dashboard" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
+
+            {/* Sections Routes */}
+            <Route path="/sections/hero" element={<DashboardLayout><HeroSection /></DashboardLayout>} />
+            <Route path="/sections/about" element={<DashboardLayout><AboutSection /></DashboardLayout>} />
+            <Route path="/sections/journey" element={<DashboardLayout><JourneySection /></DashboardLayout>} />
+
+            {/* Gallery Routes */}
+            <Route path="/gallery/management" element={<DashboardLayout><GalleryManagement /></DashboardLayout>} />
+
+            {/* Contact Routes */}
+            <Route path="/contact/messages" element={<DashboardLayout><MessagesManagement /></DashboardLayout>} />
 
             {/* Default redirect to dashboard */}
             <Route path="/" element={<Navigate to="/dashboard" replace />} />

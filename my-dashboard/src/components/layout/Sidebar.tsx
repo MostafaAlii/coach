@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { menuItems } from "../../data/menuItems";
 import {
     HomeIcon,
     UserIcon,
@@ -15,13 +17,7 @@ import {
     ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 
-interface MenuItem {
-    name: string;
-    icon: JSX.Element;
-    children?: MenuItem[];
-    badge?: string | number;
-    badgeType?: "info" | "warning" | "danger";
-}
+type MenuItem = MenuItemType;
 
 interface SidebarProps {
     rtl?: boolean;
@@ -29,11 +25,12 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps) {
+    const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
     const [activeItem, setActiveItem] = useState("Dashboard");
     const [openMenus, setOpenMenus] = useState<string[]>([]);
 
-    const menuItems: MenuItem[] = [
+    {/*const menuItems: MenuItem[] = [
         { name: "Dashboard", icon: <HomeIcon className="w-5 h-5" /> },
         {
             name: "Analytics",
@@ -83,7 +80,7 @@ export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps)
                 { name: "Notifications", icon: <BellIcon className="w-4 h-4" /> },
             ],
         },
-    ];
+    ];*/}
 
     // Accordion behavior: close siblings when opening a menu
     const toggleMenu = (menuPath: string, level: number) => {
@@ -115,11 +112,24 @@ export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps)
 
     const isMenuOpen = (menuPath: string) => openMenus.includes(menuPath);
 
-    const handleItemClick = (itemName: string, menuPath: string, hasChildren: boolean, level: number) => {
+    {/*const handleItemClick = (itemName: string, menuPath: string, hasChildren: boolean, level: number) => {
         if (hasChildren) {
             if (!collapsed) toggleMenu(menuPath, level);
         } else {
             setActiveItem(itemName);
+            if (item.link) {
+                navigate(item.link);
+            }
+        }
+    };*/}
+    const handleItemClick = (item: MenuItem, menuPath: string, hasChildren: boolean, level: number) => {
+        if (hasChildren) {
+            if (!collapsed) toggleMenu(menuPath, level);
+        } else {
+            setActiveItem(item.name);
+            if (item.link) {
+                navigate(item.link);
+            }
         }
     };
 
@@ -142,14 +152,14 @@ export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps)
                         : "bg-red-500 shadow-lg shadow-red-500/50";
 
         return (
-            <div key={menuPath} className="flex flex-col w-full group relative">
+            <div key={menuPath} className="relative flex flex-col w-full group">
                 {/* Main Menu Item */}
                 <button
-                    onClick={() => handleItemClick(item.name, menuPath, hasChildren, level)}
+                    onClick={() => handleItemClick(item, menuPath, hasChildren, level)}
                     className={`
             w-full flex items-center gap-3 p-3 rounded-lg
             text-slate-700 dark:text-slate-200
-            hover:bg-gradient-to-r hover:from-indigo-50 hover:to-indigo-100 
+            hover:bg-gradient-to-r hover:from-indigo-50 hover:to-indigo-100
             dark:hover:from-indigo-900 dark:hover:to-indigo-800
             hover:text-indigo-600 dark:hover:text-indigo-300
             hover:shadow-md hover:scale-[1.02]
@@ -170,13 +180,13 @@ export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps)
 
                     {!collapsed && (
                         <>
-                            <span className="flex-1 text-start transition-all duration-200">{item.name}</span>
+                            <span className="flex-1 transition-all duration-200 text-start">{item.name}</span>
 
                             {/* Badge with pulse animation */}
                             {item.badge && (
                                 <span
                                     className={`
-                    px-2 py-0.5 text-xs font-semibold text-white rounded-full 
+                    px-2 py-0.5 text-xs font-semibold text-white rounded-full
                     ${badgeColor}
                     animate-pulse
                     transition-all duration-300
@@ -212,7 +222,7 @@ export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps)
                     >
                         <div
                             className={`
-                flex flex-col space-y-1 
+                flex flex-col space-y-1
                 ${rtl ? "mr-2" : "ml-2"}
                 border-l-2 border-indigo-200 dark:border-indigo-800
                 pl-2
@@ -228,7 +238,7 @@ export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps)
                     <div
                         className={`
               absolute z-50 top-2 ${rtl ? "right-full mr-2" : "left-full ml-2"}
-              whitespace-nowrap px-3 py-2 rounded-lg 
+              whitespace-nowrap px-3 py-2 rounded-lg
               bg-gray-900 dark:bg-gray-700 text-white text-sm
               opacity-0 invisible group-hover:opacity-100 group-hover:visible
               transition-all duration-300 ease-out
@@ -254,9 +264,9 @@ export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps)
     return (
         <aside
             className={`
-        bg-white dark:bg-gray-800 
-        border-${rtl ? "l" : "r"} border-slate-200 dark:border-gray-700 
-        min-h-screen flex flex-col 
+        bg-white dark:bg-gray-800
+        border-${rtl ? "l" : "r"} border-slate-200 dark:border-gray-700
+        min-h-screen flex flex-col
         transition-all duration-500 ease-in-out
         shadow-xl
         ${collapsed ? "w-20" : "w-64"}
@@ -266,13 +276,13 @@ export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps)
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-gray-700">
                 {!collapsed && (
-                    <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent animate-pulse">
+                    <h1 className="text-xl font-bold text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text animate-pulse">
                         {rtl ? "لوحة التحكم" : "My Dashboard"}
                     </h1>
                 )}
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="p-2 rounded-lg hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 dark:hover:from-indigo-900 dark:hover:to-purple-900 transition-all duration-300 cursor-pointer hover:scale-110 active:scale-95"
+                    className="p-2 transition-all duration-300 rounded-lg cursor-pointer hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 dark:hover:from-indigo-900 dark:hover:to-purple-900 hover:scale-110 active:scale-95"
                     aria-label="Toggle sidebar"
                 >
                     <svg
@@ -293,14 +303,14 @@ export default function Sidebar({ rtl = false, darkMode = false }: SidebarProps)
             </div>
 
             {/* Navigation with custom scrollbar */}
-            <nav className="mt-6 flex-1 flex flex-col gap-1 px-3 overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-300 dark:scrollbar-thumb-indigo-700 scrollbar-track-transparent">
+            <nav className="flex flex-col flex-1 gap-1 px-3 mt-6 overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-300 dark:scrollbar-thumb-indigo-700 scrollbar-track-transparent">
                 {menuItems.map((item) => renderMenuItem(item))}
             </nav>
 
             {/* Footer */}
-            <div className="mt-auto p-6 border-t border-slate-200 dark:border-gray-700">
+            <div className="p-6 mt-auto border-t border-slate-200 dark:border-gray-700">
                 {!collapsed && (
-                    <div className="text-sm text-slate-500 dark:text-slate-400 select-none text-center hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+                    <div className="text-sm text-center transition-colors duration-300 select-none text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400">
                         {rtl ? "© 2026 شركتي" : "© 2026 MyCompany"}
                     </div>
                 )}
