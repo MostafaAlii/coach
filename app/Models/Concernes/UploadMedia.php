@@ -101,8 +101,7 @@ trait UploadMedia {
         return $this->uploadSingleMedia($baseFolder, $file, $model, $column, $relation, $useStorage, $generateThumbnail, $collectionName, $addWatermark);
     }
 
-    public function deleteExistingMedia($baseFolder, $model, ?string $column, ?string $relation, bool $useStorage, ?string $collectionName): void
-    {
+    public function deleteExistingMedia($baseFolder, $model, ?string $column, ?string $relation, bool $useStorage, ?string $collectionName): void {
         $base = "uploads/$baseFolder";
 
         if ($column && in_array($column, $model->getFillable())) {
@@ -123,8 +122,7 @@ trait UploadMedia {
         }
     }
 
-    public function deleteFile($base, $fileName, bool $useStorage): void
-    {
+    public function deleteFile($base, $fileName, bool $useStorage): void {
         $originalPath = $useStorage ? public_path("$base/$fileName") : storage_path("app/public/$base/$fileName");
         $thumbnailPath = $useStorage ? public_path("$base/thumbnails/$fileName") : storage_path("app/public/$base/thumbnails/$fileName");
 
@@ -150,7 +148,6 @@ trait UploadMedia {
             true
         );
     }
-
 
     private function generateThumbnail($image, string $folderPath, string $fileName, bool $useStorage): void {
         $thumbnailFolderPath = "$folderPath/thumbnails";

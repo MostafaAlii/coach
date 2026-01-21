@@ -6,6 +6,7 @@ import Login from "./pages/auth/Login";
 
 // Import Pages
 import Dashboard from "./pages/dashboard/Dashboard";
+import MainSettings from "./pages/settings/MainSettings";
 import HeroSection from "./pages/sections/HeroSection";
 import AboutSection from "./pages/sections/AboutSection";
 import JourneySection from "./pages/sections/JourneySection";
@@ -27,7 +28,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     }, [darkMode]);
 
     useEffect(() => {
-        document.documentElement.dir = rtl ? "rtl" : "ltr";
+        document.documentElement.dir = rtl ? "ar" : "en";
     }, [rtl]);
 
     return (
@@ -57,7 +58,7 @@ export default function App() {
 
             {/* Dashboard Routes - wrapped in DashboardLayout */}
             <Route path="/dashboard" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
-
+            <Route path="/settings/main" element={<DashboardLayout><MainSettings /></DashboardLayout>} />
             {/* Sections Routes */}
             <Route path="/sections/hero" element={<DashboardLayout><HeroSection /></DashboardLayout>} />
             <Route path="/sections/about" element={<DashboardLayout><AboutSection /></DashboardLayout>} />

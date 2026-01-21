@@ -154,10 +154,10 @@ function MessagePreview({ isOpen, onClose, message }: MessagePreviewProps) {
             />
 
             {/* Popup */}
-            <div className="relative w-full max-w-3xl max-h-[90vh] overflow-hidden">
-                <div className="flex flex-col h-full bg-white rounded-xl shadow-2xl dark:bg-gray-800 max-h-[90vh]">
+            <div className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden">
+                <div className="overflow-y-auto bg-white rounded-xl shadow-2xl dark:bg-gray-800 max-h-[90vh]">
                     {/* Header */}
-                    <div className="flex-shrink-0 p-6 border-b bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border-slate-100 dark:border-gray-700">
+                    <div className="sticky top-0 z-10 p-6 border-b bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border-slate-100 dark:border-gray-700">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center justify-center w-12 h-12 text-white rounded-full shadow-md bg-gradient-to-r from-indigo-500 to-purple-500">
@@ -209,24 +209,38 @@ function MessagePreview({ isOpen, onClose, message }: MessagePreviewProps) {
                         </div>
                     </div>
 
-                    {/* Message Content - هذا الجزء معدل */}
-                    <div className="flex-1 p-6 overflow-y-auto">
-                        <div className="h-full">
-                            <h4 className="mb-3 text-sm font-semibold tracking-wider uppercase text-slate-600 dark:text-slate-400">
-                                Message Content
+                    {/* Message Content */}
+                    <div className="p-6">
+                        <div className="mb-4">
+                            <h4 className="mb-2 text-sm font-semibold tracking-wider uppercase text-slate-600 dark:text-slate-400">
+                                Message
                             </h4>
-                            <div className="h-full p-4 border rounded-lg bg-slate-50 dark:bg-gray-700/50 border-slate-200 dark:border-gray-600">
-                                <div className="h-full overflow-y-auto">
-                                    <p className="leading-relaxed break-words whitespace-pre-wrap text-slate-700 dark:text-slate-300">
-                                        {message.message}
-                                    </p>
+                            <div className="p-4 border rounded-lg bg-slate-50 dark:bg-gray-700/50 border-slate-200 dark:border-gray-600">
+                                <p className="leading-relaxed whitespace-pre-wrap text-slate-700 dark:text-slate-300">
+                                    {message.message}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Message Stats */}
+                        <div className="grid grid-cols-2 gap-4 p-4 rounded-lg bg-slate-50 dark:bg-gray-700/50">
+                            <div className="text-center">
+                                <div className="text-sm text-slate-600 dark:text-slate-400">Characters</div>
+                                <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                                    {message.message.length}
+                                </div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-sm text-slate-600 dark:text-slate-400">Words</div>
+                                <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                                    {message.message.split(/\s+/).filter(word => word.length > 0).length}
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex-shrink-0 p-6 border-t bg-slate-50/80 dark:bg-gray-900/50 backdrop-blur-sm border-slate-100 dark:border-gray-700">
+                    <div className="sticky bottom-0 p-6 border-t bg-slate-50/80 dark:bg-gray-900/50 backdrop-blur-sm border-slate-100 dark:border-gray-700">
                         <div className="flex justify-end gap-3">
                             <a
                                 href={`mailto:${message.email}?subject=Re: Your message&body=Dear ${message.name},%0D%0A%0D%0A`}

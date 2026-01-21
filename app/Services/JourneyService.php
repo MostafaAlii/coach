@@ -14,13 +14,14 @@ class JourneyService {
         );
     }
 
-    /*public function list(string $type) {
-        return $this->journeyRepo->paginateByType($type);
-    }*/
-
     public function store(array $data) {
         return $this->journeyRepo->create($data);
     }
+
+    public function addPoints(int $journeyId, array $points) {
+        return $this->journeyRepo->addPoints($journeyId, $points);
+    }
+
 
     public function update(int $id, array $data) {
         return $this->journeyRepo->update($id, $data);

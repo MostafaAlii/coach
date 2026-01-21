@@ -9,8 +9,11 @@ class HeroController extends Controller {
     use ApiResponseTrait;
     public function __construct(protected HeroService $service) {}
     public function index() {
-        $heroes = $this->service->getAll();
-        return $this->successResponse(HeroResource::collection($heroes), 'Heroes retrieved successfully');
+        $hero = $this->service->getAll();
+        return $this->successResponse(
+            $hero ? new HeroResource($hero) : null,
+            'Hero retrieved successfully'
+        );
     }
 
     public function upsert(Request $request) {

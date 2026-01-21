@@ -23,6 +23,13 @@ export const menuItems: MenuItemType[] = [
         link: "/dashboard",
     },
     {
+        name: "Settings",
+        icon: <Cog6ToothIcon className="w-5 h-5" />,
+        children: [
+            { name: "Main Settings", link: "/settings/main" },
+        ],
+    },
+    {
         name: "Sections",
         icon: <RectangleStackIcon className="w-5 h-5" />,
         children: [

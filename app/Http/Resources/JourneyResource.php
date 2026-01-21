@@ -9,7 +9,7 @@ class JourneyResource extends JsonResource {
             'title'  => $this->title,
             'type'   => $this->type,
             'status' => $this->status,
-            'points' => JourneyResource::collection($this->whenLoaded('children')),
+            'points' => JourneyResource::collection($this->children ?? collect()),
         ];
     }
 }

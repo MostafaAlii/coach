@@ -3,11 +3,12 @@
 namespace Database\Seeders;
 use App\Models\Journey;
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\DB;
 class JourneySeeder extends Seeder
 {
     public function run(): void
     {
+        DB::table('journeys')->delete();
         /* ===============================
          | SERVICES
          =============================== */
